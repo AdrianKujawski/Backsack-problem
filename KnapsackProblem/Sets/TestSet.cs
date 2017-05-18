@@ -27,5 +27,15 @@ namespace KnapsackProblem.Sets {
 				new SackItem("Obuwie sportowe", 100, 9)
 			};
 		}
+
+		public static List<SackItem> SetThree() {
+			return new List<SackItem> {
+				new SackItem("A", 10, 9),
+				new SackItem("B", 7, 12),
+				new SackItem("C", 1, 2),
+				new SackItem("D", 3, 7),
+				new SackItem("E", 2, 5),
+			};
+		}
 	}
 }

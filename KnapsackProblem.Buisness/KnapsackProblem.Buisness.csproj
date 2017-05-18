@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\BrutalForce.cs" />
+    <Compile Include="Algorithm\GreedyAlgorithm.cs" />
     <Compile Include="Algorithm\Helper\Permutation.cs" />
     <Compile Include="Model\Sack.cs" />
     <Compile Include="Model\SackItem.cs" />
