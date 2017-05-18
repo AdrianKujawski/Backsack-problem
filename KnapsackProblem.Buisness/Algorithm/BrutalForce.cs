@@ -41,7 +41,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 
 		bool CheckResults(IEnumerable<SackItem> items, out int value) {
 			value = items.Sum(it => it.Value);
-			var size = items.Sum(it => it.Size);
+			var size = items.Sum(it => it.Weight);
 			if (value <= _bestValue || size > _sack.Capacity) return true;
 
 			return false;

@@ -10,16 +10,16 @@ namespace KnapsackProblem.Buisness.Model {
 
 		public string Name { get; }
 		public int Value { get; }
-		public int Size { get; }
+		public int Weight { get; }
 
-		public SackItem(string name, int value, int size) {
+		public SackItem(string name, int value, int weight) {
 			Name = name;
 			Value = value;
-			Size = size;
+			Weight = weight;
 		}
 
 		public override string ToString() {
-			return $"{Name}, Size:{Size}, Value:{Value}";
+			return $"{Name}, Size:{Weight}, Value:{Value}";
 		}
 	}
 
