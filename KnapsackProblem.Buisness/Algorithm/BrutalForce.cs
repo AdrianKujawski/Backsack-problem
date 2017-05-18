@@ -4,7 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using KnapsackProblem.Buisness.Algorithm.Helper;
@@ -16,7 +15,6 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		readonly Sack _sack;
 		readonly List<SackItem> _theBestItems;
 		int _bestValue;
-		IEnumerable<SackItem> _sortedItem;
 
 		public BrutalForce(Sack sack) {
 			_theBestItems = new List<SackItem>();
@@ -25,39 +23,34 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		}
 
 		public IEnumerable<SackItem> Compute() {
-			SortItems();
 			CompareItems();
-			Write();
 			return _theBestItems;
 		}
 
 		void CompareItems() {
-			for (var i = 1; i <= _sortedItem.Count(); i++) {
-				var loo = Permutation.GetPermutations(_sortedItem, i);
+			for (var i = 1; i <= _sack.SackItems.Count(); i++) {
+				var loo = Permutation.GetPermutations(_sack.SackItems, i);
 				foreach (var items in loo) {
-					var value = items.Sum(it => it.Value);
-					var size = items.Sum(it => it.Size);
-					if (value <= _bestValue || size > _sack.Capacity) continue;
+					int value;
+					if (CheckResults(items, out value)) continue;
 
 					SetNewBest(value, items);
 				}
 			}
 		}
 
+		bool CheckResults(IEnumerable<SackItem> items, out int value) {
+			value = items.Sum(it => it.Value);
+			var size = items.Sum(it => it.Size);
+			if (value <= _bestValue || size > _sack.Capacity) return true;
+
+			return false;
+		}
+
 		void SetNewBest(int value, IEnumerable<SackItem> items) {
 			_bestValue = value;
 			_theBestItems.Clear();
 			_theBestItems.AddRange(items);
-		}
-
-		void SortItems() {
-			_sortedItem = _sack.SackItems.OrderBy(item => item.Value / item.Size);
-		}
-
-		void Write() {
-			foreach (var sackSackItem in _theBestItems) {
-				Console.WriteLine(sackSackItem);
-			}
 		}
 	}
 
