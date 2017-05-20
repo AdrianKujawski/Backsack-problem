@@ -12,8 +12,8 @@ namespace KnapsackProblem.Sets {
 			return new List<SackItem> {
 				new SackItem("Ziemniak", 4, 3),
 				new SackItem("Rękawica", 5, 1),
-				new SackItem("Kamień", 1, 6),
-				new SackItem("Pierśceń", 7, 2)
+				new SackItem("Kamień", 2, 6),
+				new SackItem("Pierśceń", 7, 12)
 			};
 		}
 
@@ -35,6 +35,14 @@ namespace KnapsackProblem.Sets {
 				new SackItem("C", 1, 2),
 				new SackItem("D", 3, 7),
 				new SackItem("E", 2, 5),
+			};
+		}
+
+		public static List<SackItem> SetFour() {
+			return new List<SackItem> {
+				new SackItem("A", 5, 3),
+				new SackItem("B", 3, 2),
+				new SackItem("C", 4, 1),
 			};
 		}
 	}

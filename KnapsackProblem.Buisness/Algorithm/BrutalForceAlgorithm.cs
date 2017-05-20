@@ -11,12 +11,12 @@ using KnapsackProblem.Buisness.Model;
 
 namespace KnapsackProblem.Buisness.Algorithm {
 
-	public class BrutalForce {
+	public class BrutalForceAlgorithm {
 		readonly Sack _sack;
 		readonly List<SackItem> _theBestItems;
 		int _bestValue;
 
-		public BrutalForce(Sack sack) {
+		public BrutalForceAlgorithm(Sack sack) {
 			_theBestItems = new List<SackItem>();
 			_sack = sack;
 			_bestValue = 0;
@@ -28,7 +28,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		}
 
 		void CompareItems() {
-			for (var i = 1; i <= _sack.SackItems.Count(); i++) {
+			for (var i = 1; i <= _sack.ItemsQuantity; i++) {
 				var loo = Permutation.GetPermutations(_sack.SackItems, i);
 				foreach (var items in loo) {
 					int value;
