@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="BrutalForce.cs">
+// <copyright file="BrutalForceAlgorithm.cs">
 //     Copyright (c) 2017, Adrian Kujawski.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,18 +11,14 @@ using KnapsackProblem.Buisness.Model;
 
 namespace KnapsackProblem.Buisness.Algorithm {
 
-	public class BrutalForceAlgorithm {
-		readonly Sack _sack;
-		readonly List<SackItem> _theBestItems;
+	public class BrutalForceAlgorithm : KnapsackAlgorithm {
 		int _bestValue;
 
-		public BrutalForceAlgorithm(Sack sack) {
-			_theBestItems = new List<SackItem>();
-			_sack = sack;
+		public BrutalForceAlgorithm(Sack sack) : base(sack) {
 			_bestValue = 0;
 		}
 
-		public IEnumerable<SackItem> Compute() {
+		public override IEnumerable<SackItem> Compute() {
 			CompareItems();
 			return _theBestItems;
 		}
@@ -42,9 +38,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		bool CheckResults(IEnumerable<SackItem> items, out int value) {
 			value = items.Sum(it => it.Value);
 			var size = items.Sum(it => it.Weight);
-			if (value <= _bestValue || size > _sack.Capacity) return true;
-
-			return false;
+			return value <= _bestValue || size > _sack.Capacity;
 		}
 
 		void SetNewBest(int value, IEnumerable<SackItem> items) {

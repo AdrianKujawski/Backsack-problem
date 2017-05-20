@@ -11,49 +11,44 @@ using KnapsackProblem.Buisness.Model;
 
 namespace KnapsackProblem.Buisness.Algorithm {
 
-	public class DynamicAlgorithm {
-		readonly Sack _sack;
-		readonly List<SackItem> _theBestItems;
-		int _currentWeight;
-		int[,] _keepTable;
-
+	public class DynamicAlgorithm : KnapsackAlgorithm {
+		readonly int[,] _a;
+		readonly int[,] _keepTable;
 		SackItem[] _sortedItem;
-		int[,] A;
 
-		public DynamicAlgorithm(Sack sack) {
-			_theBestItems = new List<SackItem>();
-			_sack = sack;
-			A = new int[_sack.ItemsQuantity + 1, _sack.Capacity + 1];
+		public DynamicAlgorithm(Sack sack) : base(sack) {
+			_a = new int[_sack.ItemsQuantity + 1, _sack.Capacity + 1];
 			_keepTable = new int[_sack.ItemsQuantity + 1, _sack.Capacity + 1];
-			_currentWeight = 0;
 		}
 
-		public void Compute() {
+		public override IEnumerable<SackItem> Compute() {
 			_sortedItem = _sack.SackItems.OrderBy(sk => sk.Value / sk.Weight).ToArray();
-
-			for (var currentItem = 0; currentItem <= _sack.ItemsQuantity; currentItem++) {
-				for (var currentCapacity = 0; currentCapacity <= _sack.Capacity; currentCapacity++) {
-					if (currentItem == 0 || currentCapacity == 0)
-						A[currentItem, currentCapacity] = 0;
-					else if (_sortedItem[currentItem - 1].Weight <= currentCapacity)
-						A[currentItem, currentCapacity] = Max(currentItem, currentCapacity);
-					else {
-						A[currentItem, currentCapacity] = A[currentItem - 1, currentCapacity];
-					}
-				}
-			}
-
-			Console.WriteLine(A[_sack.ItemsQuantity, _sack.Capacity]);
+			CompareItems();
 #if DEBUG
 			WriteATable();
 			WriteKeepTable();
-			ShowBestSolution();
 #endif
+			ChooseBestItems();
+			return _theBestItems;
+		}
+
+		void CompareItems() {
+			for (var currentItem = 0; currentItem <= _sack.ItemsQuantity; currentItem++) {
+				for (var currentCapacity = 0; currentCapacity <= _sack.Capacity; currentCapacity++) {
+					if (currentItem == 0 || currentCapacity == 0)
+						_a[currentItem, currentCapacity] = 0;
+					else if (_sortedItem[currentItem - 1].Weight <= currentCapacity)
+						_a[currentItem, currentCapacity] = Max(currentItem, currentCapacity);
+					else {
+						_a[currentItem, currentCapacity] = _a[currentItem - 1, currentCapacity];
+					}
+				}
+			}
 		}
 
 		int Max(int item, int capacity) {
-			var firstValue = _sortedItem[item - 1].Value + A[item - 1, capacity - _sortedItem[item - 1].Weight];
-			var secondValue = A[item - 1, capacity];
+			var firstValue = _sortedItem[item - 1].Value + _a[item - 1, capacity - _sortedItem[item - 1].Weight];
+			var secondValue = _a[item - 1, capacity];
 
 			if (firstValue < secondValue) return secondValue;
 
@@ -66,6 +61,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 				for (var currentCapacity = 0; currentCapacity <= _sack.Capacity; currentCapacity++) {
 					Console.Write($" {_keepTable[currentItem, currentCapacity]}");
 				}
+
 				Console.WriteLine();
 			}
 		}
@@ -73,23 +69,22 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		void WriteATable() {
 			for (var currentItem = 0; currentItem <= _sack.ItemsQuantity; currentItem++) {
 				for (var currentCapacity = 0; currentCapacity <= _sack.Capacity; currentCapacity++) {
-					Console.Write($"   {A[currentItem, currentCapacity]}");
+					Console.Write($"   {_a[currentItem, currentCapacity]}");
 				}
+
 				Console.WriteLine();
 			}
 		}
 
-		void ShowBestSolution() {
-			Console.WriteLine(Environment.NewLine + " --- The best solution --- ");
-
+		void ChooseBestItems() {
 			var item = _sack.ItemsQuantity;
 			var weight = _sack.Capacity;
 
 			for (var i = item; i > 0; i--) {
-				if (_keepTable[i, weight] == 1) {
-					Console.WriteLine(_sortedItem[i-1]);
-					weight--;
-				}
+				if (_keepTable[i, weight] != 1) continue;
+
+				_theBestItems.Add(_sortedItem[i - 1]);
+				weight--;
 			}
 		}
 	}
