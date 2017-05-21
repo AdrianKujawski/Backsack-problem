@@ -14,7 +14,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 	public class DynamicAlgorithm : KnapsackAlgorithm {
 		readonly int[,] _a;
 		readonly int[,] _keepTable;
-		SackItem[] _sortedItem;
+		SackItem[] _items;
 
 		public DynamicAlgorithm(Sack sack) : base(sack) {
 			_a = new int[_sack.ItemsQuantity + 1, _sack.Capacity + 1];
@@ -22,7 +22,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		}
 
 		public override IEnumerable<SackItem> Compute() {
-			_sortedItem = _sack.SackItems.OrderBy(sk => sk.Value / sk.Weight).ToArray();
+			_items = _sack.SackItems.ToArray();
 			CompareItems();
 #if DEBUG
 			WriteATable();
@@ -37,7 +37,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 				for (var currentCapacity = 0; currentCapacity <= _sack.Capacity; currentCapacity++) {
 					if (currentItem == 0 || currentCapacity == 0)
 						_a[currentItem, currentCapacity] = 0;
-					else if (_sortedItem[currentItem - 1].Weight <= currentCapacity)
+					else if (_items[currentItem - 1].Weight <= currentCapacity)
 						_a[currentItem, currentCapacity] = Max(currentItem, currentCapacity);
 					else {
 						_a[currentItem, currentCapacity] = _a[currentItem - 1, currentCapacity];
@@ -47,7 +47,7 @@ namespace KnapsackProblem.Buisness.Algorithm {
 		}
 
 		int Max(int item, int capacity) {
-			var firstValue = _sortedItem[item - 1].Value + _a[item - 1, capacity - _sortedItem[item - 1].Weight];
+			var firstValue = _items[item - 1].Value + _a[item - 1, capacity - _items[item - 1].Weight];
 			var secondValue = _a[item - 1, capacity];
 
 			if (firstValue < secondValue) return secondValue;
@@ -63,8 +63,8 @@ namespace KnapsackProblem.Buisness.Algorithm {
 			for (var i = item; i > 0; i--) {
 				if (_keepTable[i, weight] != 1) continue;
 
-				_theBestItems.Add(_sortedItem[i - 1]);
-				weight--;
+				_theBestItems.Add(_items[i - 1]);
+				weight -= _items[i - 1].Weight;
 			}
 		}
 
