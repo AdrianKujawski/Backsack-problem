@@ -45,5 +45,14 @@ namespace KnapsackProblem.Sets {
 				new SackItem("C", 4, 1),
 			};
 		}
+
+		public static List<SackItem> SetFive() {
+			return new List<SackItem> {
+				new SackItem("A", 10, 5),
+				new SackItem("B", 40, 4),
+				new SackItem("C", 30, 6),
+				new SackItem("D", 50, 3),
+			};
+		}
 	}
 }
