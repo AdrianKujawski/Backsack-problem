@@ -20,12 +20,24 @@ namespace KnapsackProblem {
 		public MainWindow() {
 			InitializeComponent();
 
-			var sack = new Sack(5, TestSet.SetOne());
+			var sack = new Sack(11, TestSet.SetTwo());
 			var ds = new DynamicAlgorithm(sack);
-			var result = ds.Compute();
+			var bf = new BrutalForceAlgorithm(sack);
+			var gr = new GreedyAlgorithm(sack);
+
+			Execute(bf);
+			Execute(gr);
+			Execute(ds);
+		}
+
+		void Execute(KnapsackAlgorithm algorithm) {
+			Console.WriteLine(" --- Algorytm " + algorithm.GetType().Name + " --- ");
+
+			var result = algorithm.Compute();
 			foreach (var sackItem in result) {
 				Console.WriteLine(sackItem);
 			}
+			Console.WriteLine();
 		}
 	}
 

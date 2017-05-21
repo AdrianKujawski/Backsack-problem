@@ -56,6 +56,18 @@ namespace KnapsackProblem.Buisness.Algorithm {
 			return firstValue;
 		}
 
+		void ChooseBestItems() {
+			var item = _sack.ItemsQuantity;
+			var weight = _sack.Capacity;
+
+			for (var i = item; i > 0; i--) {
+				if (_keepTable[i, weight] != 1) continue;
+
+				_theBestItems.Add(_sortedItem[i - 1]);
+				weight--;
+			}
+		}
+
 		void WriteKeepTable() {
 			for (var currentItem = 0; currentItem <= _sack.ItemsQuantity; currentItem++) {
 				for (var currentCapacity = 0; currentCapacity <= _sack.Capacity; currentCapacity++) {
@@ -73,18 +85,6 @@ namespace KnapsackProblem.Buisness.Algorithm {
 				}
 
 				Console.WriteLine();
-			}
-		}
-
-		void ChooseBestItems() {
-			var item = _sack.ItemsQuantity;
-			var weight = _sack.Capacity;
-
-			for (var i = item; i > 0; i--) {
-				if (_keepTable[i, weight] != 1) continue;
-
-				_theBestItems.Add(_sortedItem[i - 1]);
-				weight--;
 			}
 		}
 	}
