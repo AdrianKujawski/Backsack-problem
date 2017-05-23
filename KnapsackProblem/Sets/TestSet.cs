@@ -54,5 +54,15 @@ namespace KnapsackProblem.Sets {
 				new SackItem("D", 50, 3),
 			};
 		}
+
+		public static List<SackItem> RandomSet(int itemQty, int minValue, int maxValue, int minWeight, int maxWeight) {
+			var items = new List<SackItem>();
+			var rand = new Random();
+			for (var i = 0; i < itemQty; i++) {
+				items.Add(new SackItem(i.ToString(),rand.Next(minValue, maxValue), rand.Next(minWeight,maxWeight)));
+			}
+
+			return items;
+		}
 	}
 }
