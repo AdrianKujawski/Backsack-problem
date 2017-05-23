@@ -12,10 +12,6 @@ namespace KnapsackProblem.Buisness.Model {
 		public int ItemsQuantity => SackItems.Count();
 		public int CurrentWeight => SackItems.Sum(sk => sk.Weight);
 
-		public Sack(IEnumerable<SackItem> sackItems) {
-			SackItems = sackItems;
-		}
-
 		public Sack(int capacity, IEnumerable<SackItem> sackItems) {
 			SackItems = sackItems;
 			Capacity = capacity;
