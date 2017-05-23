@@ -56,7 +56,8 @@ namespace KnapsackProblem.Buisness.Algorithm {
 			return firstValue;
 		}
 
-		void ChooseBestItems() {
+		void ChooseBestItems(){
+			_theBestItems.Clear();
 			var item = _sack.ItemsQuantity;
 			var weight = _sack.Capacity;
 

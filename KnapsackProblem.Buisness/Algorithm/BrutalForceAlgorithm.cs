@@ -25,8 +25,8 @@ namespace KnapsackProblem.Buisness.Algorithm {
 
 		void CompareItems() {
 			for (var i = 1; i <= _sack.ItemsQuantity; i++) {
-				var loo = Permutation.GetPermutations(_sack.SackItems, i);
-				foreach (var items in loo) {
+				var permutations = Permutation.GetPermutations(_sack.SackItems, i);
+				foreach (var items in permutations) {
 					int value;
 					if (CheckResults(items, out value)) continue;
 
