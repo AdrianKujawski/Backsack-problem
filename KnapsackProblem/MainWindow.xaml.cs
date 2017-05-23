@@ -22,8 +22,6 @@ namespace KnapsackProblem {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
-		List<double> avgDynamicTime = new List<double>();
-		List<double> avgGreedyTime = new List<double>();
 		int _W;
 		int _maxV;
 		int _maxW;
@@ -31,23 +29,32 @@ namespace KnapsackProblem {
 		int _minW;
 		int _qty;
 
+		public List<SackItem> SetOfItems;
+
 		public MainWindow() {
 			InitializeComponent();
-
 		}
 
 		void Button_Click(object sender, RoutedEventArgs e) {
 			if (!CheckInputData()) return;
 
-			var sack = AddNewItems();
+			PrepareSetofItems();
 
+			var sack = new Sack(_W,SetOfItems);
 			var brutalForce = new BrutalForceAlgorithm(sack);
 			var greedy = new GreedyAlgorithm(sack);
 			var dynamic = new DynamicAlgorithm(sack);
 
-			Compute(brutalForce);
+			ClearItems();
+			if(cbBF.IsChecked != null && cbBF.IsChecked.Value)
+				Compute(brutalForce);
 			Compute(greedy);
 			Compute(dynamic);
+		}
+
+		void PrepareSetofItems() {
+			SetOfItems = TestSet.RandomSet(_qty, _minV, _maxV, _minW, _maxW);
+			ItemGrid.ItemsSource = SetOfItems;
 		}
 
 		void Compute(KnapsackAlgorithm algorithm) {
@@ -57,29 +64,37 @@ namespace KnapsackProblem {
 			FillTable(algorithm.GetType(), result);
 		}
 
+		void ClearItems() {
+			tbBF.Text = string.Empty;
+			tbG.Text = string.Empty;
+			tbD.Text = string.Empty;
+		}
+
 		void FillTable(Type algorithmType, Tuple<IEnumerable<SackItem>, double> result) {
 			if (algorithmType == typeof(BrutalForceAlgorithm)) {
 				lBFweight.Content = result.Item1.Sum(i => i.Weight);
 				lBFvalue.Content = result.Item1.Sum(i => i.Value);
 				lBFtime.Content = result.Item2 + "ms";
+				foreach (var sackItem in result.Item1) {
+					tbBF.Text += sackItem.Name + ", ";
+				}
 			}
 			else if (algorithmType == typeof(GreedyAlgorithm)) {
 				lGweight.Content = result.Item1.Sum(i => i.Weight);
 				lGvalue.Content = result.Item1.Sum(i => i.Value);
 				lGtime.Content = result.Item2 + "ms";
+				foreach (var sackItem in result.Item1) {
+					tbG.Text += sackItem.Name + ", ";
+				}
 			}
 			else if (algorithmType == typeof(DynamicAlgorithm)) {
 				lDweight.Content = result.Item1.Sum(i => i.Weight);
 				lDvalue.Content = result.Item1.Sum(i => i.Value);
 				lDtime.Content = result.Item2 + "ms";
+				foreach (var sackItem in result.Item1) {
+					tbD.Text += sackItem.Name + ", ";
+				}
 			}
-		}
-
-		Sack AddNewItems() {
-			var setOfItems = TestSet.RandomSet(_qty, _minV, _maxV, _minW, _maxW);
-			lvItems.Items.Clear();
-			setOfItems.ForEach(i => lvItems.Items.Add(i));
-			return new Sack(_W, setOfItems);
 		}
 
 		bool CheckInputData() {

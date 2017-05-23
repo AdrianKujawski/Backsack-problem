@@ -25,7 +25,7 @@
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<TextBox Name="tbQty" Width="80"/>
-					<TextBox Name="tbBackpackWeight" Width="80"  Margin="10,0,10,0"/>
+					<TextBox Name="tbBackpackWeight" Width="80" Margin="10,0,10,0"/>
 					<TextBox Name="tbminw" Width="60" Margin="0,0,10,0"/>
 					<TextBox Name="tbmaxw" Width="60" Margin="0,0,10,0"/>
 					<TextBox Name="tbminv" Width="60" Margin="0,0,10,0"/>
@@ -33,24 +33,26 @@
 				</StackPanel>
 			</StackPanel>
 			<Button HorizontalAlignment="Right" Margin="0,10,6,5" Width="70" Click="Button_Click">GO!</Button>
+			<CheckBox Name="cbBF">Brutal Force</CheckBox>
 			<Border BorderThickness="2" BorderBrush="CornflowerBlue" Margin="5">
 				<StackPanel>
 					<Label FontSize="20" HorizontalAlignment="Center">Wyniki</Label>
 
 					<Grid>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="50"/>
+							<ColumnDefinition Width="80"/>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="*"></RowDefinition>
-							<RowDefinition Height="*"></RowDefinition>
-							<RowDefinition Height="*"></RowDefinition>
-							<RowDefinition Height="*"></RowDefinition>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
-						
+
 						<Label Grid.Column="1">Brutal Force</Label>
 						<Label Grid.Column="2" Grid.Row="0">Greedy</Label>
 						<Label Grid.Column="3" Grid.Row="0">Dynamic</Label>
@@ -58,7 +60,7 @@
 						<Label Grid.Column="0" Grid.Row="1">waga</Label>
 						<Label Grid.Column="0" Grid.Row="2">wartość</Label>
 						<Label Grid.Column="0" Grid.Row="3">czas</Label>
-						
+
 						<Label Name="lBFweight" HorizontalAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="1">0</Label>
 						<Label Name="lBFvalue" HorizontalAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="2">0</Label>
 						<Label Name="lBFtime" HorizontalAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="3">0</Label>
@@ -70,6 +72,12 @@
 						<Label Name="lDweight" HorizontalAlignment="Center" FontSize="14" Grid.Column="3" Grid.Row="1">0</Label>
 						<Label Name="lDvalue" HorizontalAlignment="Center" FontSize="14" Grid.Column="3" Grid.Row="2">0</Label>
 						<Label Name="lDtime" HorizontalAlignment="Center" FontSize="14" Grid.Column="3" Grid.Row="3">0</Label>
+
+						<TextBlock Grid.Column="0" Grid.Row="4" TextWrapping="WrapWithOverflow">Wybrane elementy</TextBlock>
+						<TextBlock Name="tbBF" Grid.Column="1" Grid.Row="4" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" FontSize="14"></TextBlock>
+						<TextBlock Name="tbG" Grid.Column="2" Grid.Row="4" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" FontSize="14"></TextBlock>
+						<TextBlock Name="tbD" Grid.Column="3" Grid.Row="4" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" FontSize="14"></TextBlock>
+						
 					</Grid>
 				</StackPanel>
 			</Border>
@@ -77,15 +85,9 @@
 
 		<StackPanel Grid.Column="1">
 			<Label HorizontalAlignment="Center">Lista rzeczy</Label>
-			<ListView Name="lvItems" Height="290">
-				<ListView.View>
-					<GridView>
-						<GridViewColumn Header="Id" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-						<GridViewColumn Header="W" DisplayMemberBinding="{Binding Weight}"></GridViewColumn>
-						<GridViewColumn Header="V" DisplayMemberBinding="{Binding Value}"></GridViewColumn>
-					</GridView>
-				</ListView.View>
-			</ListView>
+			<DataGrid Name="ItemGrid" Height="290"/>
+
+
 		</StackPanel>
 
 	</Grid>

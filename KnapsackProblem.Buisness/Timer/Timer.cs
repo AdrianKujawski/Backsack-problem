@@ -14,16 +14,18 @@ namespace KnapsackProblem.Buisness.Timer {
 
 		public Timer(KnapsackAlgorithm algorithm) {
 			_algorithm = algorithm;
-			_stopWatch = Stopwatch.StartNew();
+			_stopWatch = new Stopwatch();
 		}
 
 		public double MeasureTime() {
+			_stopWatch.Start();
 			_algorithm.Compute();
 			_stopWatch.Stop();
 			return _stopWatch.Elapsed.TotalMilliseconds;
 		}
 
 		public Tuple<IEnumerable<SackItem>, double> MeasureTimeWithResult() {
+			_stopWatch.Start();
 			var result = _algorithm.Compute();
 			_stopWatch.Stop();
 			return new Tuple<IEnumerable<SackItem>, double>(result, _stopWatch.Elapsed.TotalMilliseconds);
